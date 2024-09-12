@@ -3,6 +3,14 @@
 
 namespace be::render::shader
 {
+	void ShaderProgram::Bind(ComPtr<ID3D11DeviceContext> context)
+	{
+		if (!m_vertexShader || !m_pixelShader) return;
+		context->VSSetShader(m_vertexShader.Get(), nullptr, 0);
+		context->PSSetShader(m_pixelShader.Get(), nullptr, 0);
+		context->IASetInputLayout(m_inputLayout.Get());
+	}
+
 	void ShaderProgram::Load(ComPtr<ID3D11Device> device, std::wstring vertexShaderPath, std::wstring pixelShaderPath)
 	{
 		HRESULT hr = S_OK;
@@ -30,21 +38,13 @@ namespace be::render::shader
 	void ShaderProgram::LoadBinary(ComPtr<ID3D11Device> device, ComPtr<ID3DBlob> vertexShaderBlob, ComPtr<ID3DBlob> pixelShaderBlob)
 	{
 		HRESULT hr = S_OK;
-		hr = device->CreateVertexShader(vertexShaderBlob->GetBufferPointer(), vertexShaderBlob->GetBufferSize(), nullptr, &vertexShader) TIF;
-		hr = device->CreatePixelShader(pixelShaderBlob->GetBufferPointer(), pixelShaderBlob->GetBufferSize(), nullptr, &pixelShader) TIF;
+		hr = device->CreateVertexShader(vertexShaderBlob->GetBufferPointer(), vertexShaderBlob->GetBufferSize(), nullptr, &m_vertexShader) TIF;
+		hr = device->CreatePixelShader(pixelShaderBlob->GetBufferPointer(), pixelShaderBlob->GetBufferSize(), nullptr, &m_pixelShader) TIF;
 
 		D3D11_INPUT_ELEMENT_DESC layout[] =
 		{
 			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 		};
-		hr = device->CreateInputLayout(layout, 1, vertexShaderBlob->GetBufferPointer(), vertexShaderBlob->GetBufferSize(), &inputLayout) TIF;
-	}
-
-	void ShaderProgram::Bind(ComPtr<ID3D11DeviceContext> context)
-	{
-		if (!vertexShader || !pixelShader) return;
-		context->VSSetShader(vertexShader.Get(), nullptr, 0);
-		context->PSSetShader(pixelShader.Get(), nullptr, 0);
-		context->IASetInputLayout(inputLayout.Get());
+		hr = device->CreateInputLayout(layout, 1, vertexShaderBlob->GetBufferPointer(), vertexShaderBlob->GetBufferSize(), &m_inputLayout) TIF;
 	}
 }

@@ -9,7 +9,7 @@ namespace be::render
 		this->m_UpdateView();
 	}
 
-	dm::Vector3 Camera::GetPosition()
+	dm::Vector3 Camera::GetPosition() const
 	{
 		return m_position;
 	}
@@ -21,12 +21,12 @@ namespace be::render
 		this->m_UpdateView();
 	}
 
-	dm::Vector3 Camera::GetTarget()
+	dm::Vector3 Camera::GetTarget() const
 	{
 		return dm::Vector3();
 	}
 
-	dm::Matrix Camera::GetView()
+	dm::Matrix Camera::GetView() const
 	{
 		return m_view;
 	}

@@ -9,13 +9,13 @@ namespace be::render
 	{
 	public:
 		void SetPosition(dm::Vector3 position);
-		dm::Vector3 GetPosition();
+		dm::Vector3 GetPosition() const;
 
 		void SetTarget(dm::Vector3 target);
-		dm::Vector3 GetTarget();
+		dm::Vector3 GetTarget() const;
 
-		dm::Matrix GetView();
 		void SetView(dm::Matrix view);
+		dm::Matrix GetView() const;
 	private:
 		dm::Matrix m_view;
 		dm::Vector3 m_position;

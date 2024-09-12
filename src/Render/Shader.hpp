@@ -5,14 +5,16 @@
 
 namespace be::render::shader
 {
-	struct ShaderProgram
+	class ShaderProgram
 	{
+	public:
 		void Bind(ComPtr<ID3D11DeviceContext> context);
 		void Load(ComPtr<ID3D11Device> device, std::wstring vertexShaderPath, std::wstring pixelShaderPath);
 		void LoadBinary(ComPtr<ID3D11Device> device, std::wstring vertexShaderPath, std::wstring pixelShaderPath);
 		void LoadBinary(ComPtr<ID3D11Device> device, ComPtr<ID3DBlob> vertexShaderBlob, ComPtr<ID3DBlob> pixelShaderBlob);
-		ComPtr<ID3D11VertexShader> vertexShader;
-		ComPtr<ID3D11PixelShader> pixelShader;
-		ComPtr<ID3D11InputLayout> inputLayout;
+	private:
+		ComPtr<ID3D11VertexShader> m_vertexShader;
+		ComPtr<ID3D11PixelShader> m_pixelShader;
+		ComPtr<ID3D11InputLayout> m_inputLayout;
 	};
 }

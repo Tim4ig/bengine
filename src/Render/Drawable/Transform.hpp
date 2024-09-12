@@ -13,12 +13,13 @@ namespace be::render::drawable
 		pipeline::CBuffer* GetRawCBuffer();
 
 		void SetPosition(dm::Vector3 position);
-		dm::Vector3 GetPosition();
+		dm::Vector3 GetPosition() const;
 	protected:
 		dm::Vector3 m_scale;
 		dm::Vector3 m_position;
 		dm::Quaternion m_rotation;
 		pipeline::CBuffer m_cbuffer;
+
 		struct
 		{
 			dm::Matrix worldMatrix;

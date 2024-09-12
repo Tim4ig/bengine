@@ -15,8 +15,8 @@ namespace be::render
 		Device();
 		~Device();
 
-		ComPtr<ID3D11Device> GetRawDevice();
-		ComPtr<ID3D11DeviceContext> GetRawContext();
+		ComPtr<ID3D11Device> GetRawDevice() const;
+		ComPtr<ID3D11DeviceContext> GetRawContext() const;
 		std::shared_ptr<Renderer> CreateRenderer(std::shared_ptr<Window> hwnd, POINT size);
 
 		std::shared_ptr<Object> CreateObject();

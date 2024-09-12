@@ -12,6 +12,16 @@ namespace be::render
 	{
 	}
 
+	ComPtr<ID3D11Device> Device::GetRawDevice() const
+	{
+		return m_device;
+	}
+
+	ComPtr<ID3D11DeviceContext> Device::GetRawContext() const
+	{
+		return m_context;
+	}
+
 	std::shared_ptr<Renderer> Device::CreateRenderer(std::shared_ptr<Window> hwnd, POINT size)
 	{
 		return std::make_shared<Renderer>(m_device, m_context, hwnd, size);
@@ -20,16 +30,6 @@ namespace be::render
 	std::shared_ptr<Object> Device::CreateObject()
 	{
 		return std::make_shared<Object>(m_device);
-	}
-
-	ComPtr<ID3D11Device> Device::GetRawDevice()
-	{
-		return m_device;
-	}
-
-	ComPtr<ID3D11DeviceContext> Device::GetRawContext()
-	{
-		return m_context;
 	}
 
 	void Device::m_Init()
