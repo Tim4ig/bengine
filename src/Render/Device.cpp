@@ -36,10 +36,8 @@ namespace be::render
 	{
 		HRESULT hr = S_OK;
 
-		{
-			hr = CreateDXGIFactory(IID_PPV_ARGS(&m_factory)) TIF;
-		}
-
+		hr = CreateDXGIFactory(IID_PPV_ARGS(&m_factory)) TIF;
+		
 		{
 			UINT flags = 0;
 			if constexpr (DEBUG) flags |= D3D11_CREATE_DEVICE_DEBUG;

@@ -10,9 +10,8 @@ namespace be::render::pipeline
 	public:
 		CBuffer(ComPtr<ID3D11Device> device);
 
-		void BindVS(ComPtr<ID3D11DeviceContext> context, UINT slot);
-
 		void Update(void* data, size_t size);
+		void BindVS(ComPtr<ID3D11DeviceContext> context, UINT slot);
 
 		template<class T>
 		void Update(T& data) { Update(&data, sizeof(T)); }

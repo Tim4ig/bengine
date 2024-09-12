@@ -3,10 +3,9 @@
 
 namespace be::render
 {
-	Object::Object(ComPtr<ID3D11Device> device) : m_cbuffer(device)
+	Object::Object(ComPtr<ID3D11Device> device) : drawable::Transform(device)
 	{
 		m_device = device;
-		m_cbuffer.Update(m_objectTransforms);
 	}
 
 	void Object::SetVertices(drawable::Vertex* vertexArr, size_t count)
@@ -27,18 +26,6 @@ namespace be::render
 		hr = m_device->CreateBuffer(&bufferDesc, &initData, m_mesh.vertexBuffer.GetAddressOf()) TIF;
 	}
 
-	void Object::SetPosition(dm::Vector3 position)
-	{
-		m_transform.position = position;
-		m_objectTransforms.worldMatrix = DirectX::XMMatrixTranslation(position.x, position.y, position.z);
-		m_cbuffer.Update(&m_objectTransforms, sizeof(m_objectTransforms));
-	}
-
-	dm::Vector3 Object::GetPosition()
-	{
-		return m_transform.position;
-	}
-
 	drawable::Mesh* Object::GetRawMesh()
 	{
 		return &m_mesh;
@@ -47,15 +34,5 @@ namespace be::render
 	drawable::Texture* Object::GetRawTexture()
 	{
 		return &m_texture;
-	}
-
-	drawable::Transform* Object::GetRawTransform()
-	{
-		return &m_transform;
-	}
-
-	pipeline::CBuffer* Object::GetRawCBuffer()
-	{
-		return &m_cbuffer;
 	}
 }

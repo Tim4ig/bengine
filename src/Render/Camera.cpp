@@ -31,6 +31,11 @@ namespace be::render
 		return m_view;
 	}
 
+	void Camera::SetView(dm::Matrix view)
+	{
+		m_view = view;
+	}
+
 	void Camera::m_UpdateView()
 	{
 		dm::Vector3 up = { 0.0f, 1.0f, 0.0f };

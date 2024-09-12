@@ -15,6 +15,7 @@ namespace be::render
 		dm::Vector3 GetTarget();
 
 		dm::Matrix GetView();
+		void SetView(dm::Matrix view);
 	private:
 		dm::Matrix m_view;
 		dm::Vector3 m_position;

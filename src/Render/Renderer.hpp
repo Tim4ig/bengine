@@ -19,11 +19,11 @@ namespace be::render
 		void BeginDraw();
 		void EndDraw();
 
+		void SetSize(POINT size);
 		void SetCamera(Camera* camera);
 
 		void Clear();
 		void DrawObject(Object* object);
-		void SetSize(POINT size);
 	private:
 		std::shared_ptr<Window> m_hwnd;
 
