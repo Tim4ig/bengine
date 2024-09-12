@@ -59,9 +59,10 @@ namespace be::render::pipeline
 	{
 		UINT offset = 0;
 		UINT stride = sizeof(drawable::Vertex);
-		m_context->IASetVertexBuffers(0, 1, object->GetRawMesh()->vertexBuffer.GetAddressOf(), &stride, &offset);
+		ID3D11Buffer* buffers[] = { object->GetVertexBuffer() };
+		m_context->IASetVertexBuffers(0, 1, buffers, &stride, &offset);
 		m_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-		m_context->Draw(object->GetRawMesh()->vertexCount, 0);
+		m_context->Draw(object->GetVertexCount(), 0);
 		object->GetRawCBuffer()->BindVS(m_context, 1);
 	}
 }
