@@ -10,10 +10,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED on)
 
 file(GLOB_RECURSE SRC_FILES "src/*.cpp")
 file(GLOB_RECURSE INC_FILES "src/*.hpp")
-file(GLOB_RECURSE DEP_SRC_FILES "dep/*.cpp")
+file(GLOB_RECURSE DEP_SRC_FILES "dep/SimpleMath/*.cpp")
 
 include_directories("src")
 include_directories("dep/SimpleMath")
+include_directories("dep/tinygltf")
 
 foreach(SRC_FILE ${SRC_FILES})
     file(RELATIVE_PATH REL_PATH "${CMAKE_SOURCE_DIR}/src" ${SRC_FILE})

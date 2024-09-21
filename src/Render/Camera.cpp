@@ -3,6 +3,17 @@
 
 namespace be::render
 {
+	Camera::Camera()
+	{
+		this->m_UpdateView();
+	}
+
+	void Camera::Move(dm::Vector3 direction)
+	{
+		m_position += direction;
+		this->m_UpdateView();
+	}
+
 	void Camera::SetPosition(dm::Vector3 position)
 	{
 		m_position = position;
@@ -38,7 +49,6 @@ namespace be::render
 
 	void Camera::m_UpdateView()
 	{
-		dm::Vector3 up = { 0.0f, 1.0f, 0.0f };
-		m_view = dm::Matrix::CreateLookAt(m_position, m_position + m_target, up);
+		m_view = dm::Matrix::CreateLookAt(m_position, m_position + m_target, m_up);
 	}
 }

@@ -4,6 +4,13 @@
 #include "Render/Drawable/Vertex.hpp"
 #include "Render/Camera.hpp"
 
+#define TINYGLTF_IMPLEMENTATION
+#define STB_IMAGE_IMPLEMENTATION
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "tiny_gltf.h"
+
+using namespace tinygltf;
+
 int main() try
 {
 	auto wnd = be::Window::CreateInstance();
@@ -23,13 +30,24 @@ int main() try
 		{ 0.0f,-0.5f, 0.0f },
 		{-0.5f, 0.5f, 0.0f },
 		{ 0.5f, 0.5f, 0.0f },
+		{ 0.0f,-1.5f, 0.0f },
+		{-0.5f, 0.5f, 0.0f },
+		{ 0.5f, 0.5f, 0.0f },
 	};
 
-	obj->SetVertices(vertices, 6);
+	obj->SetVertices(vertices, 9);
 	obj->SetPosition({ 0.0f, 0.0f, -5.0f });
 
 	while (wnd->IsRunning())
 	{
+		{
+			GetAsyncKeyState('W') ? camera.Move({ 0.0f, 0.0f,-0.1f }) : void();
+			GetAsyncKeyState('S') ? camera.Move({ 0.0f, 0.0f, 0.1f }) : void();
+			GetAsyncKeyState('A') ? camera.Move({-0.1f, 0.0f, 0.0f }) : void();
+			GetAsyncKeyState('D') ? camera.Move({ 0.1f, 0.0f, 0.0f }) : void();
+			GetAsyncKeyState('Q') ? camera.SetPosition({ 0.0f, 0.0f, 0.0f }) : void();
+		}
+
 		rnd->SetCamera(&camera);
 		rnd->BeginDraw();
 		rnd->Clear();
