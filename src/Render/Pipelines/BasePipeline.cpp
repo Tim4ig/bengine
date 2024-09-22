@@ -47,6 +47,7 @@ namespace be::render::pipeline
 		m_pipelineTransforms.proj = dm::Matrix::CreatePerspectiveFieldOfView(DirectX::XM_PIDIV4, m_viewport.Width / m_viewport.Height, 0.1f, 100.0f);
 		m_pipelineTransforms.viewProj = m_pipelineTransforms.view * m_pipelineTransforms.proj;
 		m_cbuffer.Update(m_pipelineTransforms);
+		this->ResetDeferredContext();
 	}
 
 	void BasePipeline::SetCamera(Camera* camera)

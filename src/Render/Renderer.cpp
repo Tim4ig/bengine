@@ -43,23 +43,8 @@ namespace be::render
 	void Renderer::SetSize(POINT size)
 	{
 		if (!m_swapChain) return;
+
 		HRESULT hr = S_OK;
-
-		m_renderTargetView.Reset();
-		if(m_basePipeline) m_basePipeline->ResetDeferredContext();
-
-		hr = m_swapChain->ResizeBuffers(BUFFER_COUNT, size.x, size.y, DXGI_FORMAT_R8G8B8A8_UNORM, 0) TIF;
-
-		{
-			ComPtr<ID3D11Texture2D> backBuffer;
-			hr = m_swapChain->GetBuffer(0, IID_PPV_ARGS(&backBuffer)) TIF;
-
-			hr = m_device->CreateRenderTargetView(
-				backBuffer.Get(),
-				nullptr,
-				m_renderTargetView.GetAddressOf()
-			) TIF;
-		}
 
 		if (m_basePipeline)
 		{
@@ -69,6 +54,15 @@ namespace be::render
 		if (GetWindowLongPtr(m_hwnd->GetHandle(), GWL_STYLE) & WS_OVERLAPPEDWINDOW)
 		{
 			m_hwnd->SetSize(size);
+		}
+
+		m_renderTargetView.Reset();
+		hr = m_swapChain->ResizeBuffers(BUFFER_COUNT, size.x, size.y, DXGI_FORMAT_R8G8B8A8_UNORM, 0) TIF;
+
+		{
+			ComPtr<ID3D11Texture2D> backBuffer;
+			hr = m_swapChain->GetBuffer(0, IID_PPV_ARGS(&backBuffer)) TIF;
+			hr = m_device->CreateRenderTargetView(backBuffer.Get(), nullptr, &m_renderTargetView) TIF;
 		}
 	}
 
