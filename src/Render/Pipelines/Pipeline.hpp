@@ -15,6 +15,7 @@ namespace be::render::pipeline
 		virtual void BeginDraw(ComPtr<ID3D11RenderTargetView> target) = 0;
 		virtual ComPtr<ID3D11CommandList> EndDraw() = 0;
 
+		virtual void ResetDeferredContext() = 0;
 		virtual void Resize(POINT size) = 0;
 
 		virtual void Clear() = 0;
@@ -23,6 +24,6 @@ namespace be::render::pipeline
 		D3D11_VIEWPORT m_viewport = {};
 		ComPtr<ID3D11Device> m_device;
 		ComPtr<ID3D11DeviceContext> m_context;
-		ComPtr<ID3D11RenderTargetView> m_target;
+		ID3D11RenderTargetView* m_target;
 	};
 }

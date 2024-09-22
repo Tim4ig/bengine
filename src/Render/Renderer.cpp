@@ -27,7 +27,7 @@ namespace be::render
 
 		auto list = m_basePipeline->EndDraw();
 		m_context->ExecuteCommandList(list.Get(), FALSE);
-		hr = m_swapChain->Present(1, 0);
+		hr = m_swapChain->Present(1, 0) TIF;
 	}
 
 	void Renderer::SetCamera(Camera* camera)
@@ -46,7 +46,9 @@ namespace be::render
 		HRESULT hr = S_OK;
 
 		m_renderTargetView.Reset();
-		m_swapChain->ResizeBuffers(BUFFER_COUNT, size.x, size.y, DXGI_FORMAT_R8G8B8A8_UNORM, 0);
+		if(m_basePipeline) m_basePipeline->ResetDeferredContext();
+
+		hr = m_swapChain->ResizeBuffers(BUFFER_COUNT, size.x, size.y, DXGI_FORMAT_R8G8B8A8_UNORM, 0) TIF;
 
 		{
 			ComPtr<ID3D11Texture2D> backBuffer;
@@ -59,13 +61,15 @@ namespace be::render
 			) TIF;
 		}
 
-		m_context->OMSetRenderTargets(1, m_renderTargetView.GetAddressOf(), nullptr);
-
 		if (m_basePipeline)
+		{
 			m_basePipeline->Resize(size);
+		}
 
 		if (GetWindowLongPtr(m_hwnd->GetHandle(), GWL_STYLE) & WS_OVERLAPPEDWINDOW)
+		{
 			m_hwnd->SetSize(size);
+		}
 	}
 
 	void Renderer::Clear()

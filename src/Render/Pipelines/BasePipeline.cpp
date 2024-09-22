@@ -10,15 +10,17 @@ namespace be::render::pipeline
 		HRESULT hr = S_OK;
 
 		m_device = device;
-		hr = m_device->CreateDeferredContext(0, &m_context) TIF;
 		m_program.Load(device, L"../res/shaders/test.vs.hlsl", L"../res/shaders/test.ps.hlsl");
 		m_cbuffer.Update(m_pipelineTransforms);
 	}
 
 	void BasePipeline::BeginDraw(ComPtr<ID3D11RenderTargetView> target)
 	{
-		m_target = target;
-		m_context->OMSetRenderTargets(1, m_target.GetAddressOf(), nullptr);
+		HRESULT hr = S_OK;
+		if (!m_context) { hr = m_device->CreateDeferredContext(0, &m_context) TIF; }
+
+		m_target = target.Get();
+		m_context->OMSetRenderTargets(1, &m_target, nullptr);
 		m_context->RSSetViewports(1, &m_viewport);
 		m_cbuffer.BindVS(m_context, 0);
 		m_program.Bind(m_context);
@@ -26,10 +28,14 @@ namespace be::render::pipeline
 
 	ComPtr<ID3D11CommandList> BasePipeline::EndDraw()
 	{
-		m_target.Reset();
 		ComPtr<ID3D11CommandList> commandList;
 		m_context->FinishCommandList(true, &commandList);
 		return commandList;
+	}
+
+	void BasePipeline::ResetDeferredContext()
+	{
+		m_context.Reset();
 	}
 
 	void BasePipeline::Resize(POINT size)
@@ -52,7 +58,7 @@ namespace be::render::pipeline
 
 	void BasePipeline::Clear()
 	{
-		m_context->ClearRenderTargetView(m_target.Get(), m_clearColor);
+		m_context->ClearRenderTargetView(m_target, m_clearColor);
 	}
 
 	void BasePipeline::DrawObject(Object* object)

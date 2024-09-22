@@ -19,6 +19,7 @@ namespace be::render::pipeline
 		void BeginDraw(ComPtr<ID3D11RenderTargetView> target) override;
 		ComPtr<ID3D11CommandList> EndDraw() override;
 
+		void ResetDeferredContext() override;
 		void Resize(POINT size) override;
 		void SetCamera(Camera* camera);
 
